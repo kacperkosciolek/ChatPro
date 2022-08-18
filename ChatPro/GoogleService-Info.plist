@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>188835658075-e7ldr721ahp62uodpuhhl7s8vogv2tak.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.188835658075-e7ldr721ahp62uodpuhhl7s8vogv2tak</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA08JD60WaTfNOq5rzeG9xk84S9EoS1TH8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>188835658075</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.kacperkowalski.ChatPro</string>
+	<key>PROJECT_ID</key>
+	<string>chatpro-7d6a1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chatpro-7d6a1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:188835658075:ios:11bc06e190fd78da87827e</string>
+	<key>DATABASE_URL</key>
+	<string>https://chatpro-7d6a1-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
