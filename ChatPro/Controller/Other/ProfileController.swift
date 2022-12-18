@@ -90,9 +90,11 @@ class ProfileController: UIViewController {
         }
         UserManager.checkIfUserIsFriend(uid: user.uid) { isFriend in
             if isFriend {
-                let controller = ConversationController()
-                controller.friend = user
-                self.navigationController?.pushViewController(controller, animated: true)
+                ChatsManager.shared.fetchChat(with: user.uid) { chat in
+                    let controller = FriendConversationController(friend: chat as! Friend)
+//                    let controller = ConversationController(chat: chat)
+                    self.navigationController?.pushViewController(controller, animated: true)
+                }
             } else {
                 UserManager.sendRequest(uid: user.uid) {
                     let alert = UIAlertController(title: "Request sent.", message: "", preferredStyle: UIAlertController.Style.alert)

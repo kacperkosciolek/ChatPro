@@ -76,39 +76,8 @@ struct UserManager {
         
         REQUESTS.child(currentUid).child(uid).removeValue()
     }
-    static func addFriend(uid: String) {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
-        USERS.child(uid).observeSingleEvent(of: .value) { snapshot in
-            guard let data = snapshot.value as? [String: Any] else { return }
-            
-            self.fetchValues(forUid: uid, data: data) { values in
-                USERS.child(currentUid).child("friends").child(uid).updateChildValues(values)
-            }
-        }
-        USERS.child(currentUid).observeSingleEvent(of: .value) { snapshot in
-            guard let data = snapshot.value as? [String: Any] else { return }
-            
-            self.fetchValues(forUid: currentUid, data: data) { values in
-                USERS.child(uid).child("friends").child(currentUid).updateChildValues(values)
-            }
-        }
-    }
-    static func fetchFriends(completion: @escaping([User]) -> Void) {
-        guard let currentUser = Auth.auth().currentUser?.uid else { return }
-
-        var friends = [User]()
-
-        USERS.child(currentUser).child("friends").observe(.childAdded) { snapshot in
-            guard let data = snapshot.value as? [String: Any] else { return }
-
-            let friend = User(uid: snapshot.key, data: data)
-            friends.append(friend)
-            completion(friends)
-        }
-    }
     static func fetchNumberOfFriends(forUid: String, completion: @escaping(Int) -> Void) {
-        USERS.child(forUid).child("friends").observeSingleEvent(of: .value) { snapshot in
+        USERS.child(forUid).child(CHATS).observeSingleEvent(of: .value) { snapshot in
             let numberOfFriends = snapshot.children.allObjects.count
             
             completion(numberOfFriends)
@@ -117,7 +86,7 @@ struct UserManager {
     static func checkIfUserIsFriend(uid: String, completion: @escaping(Bool) -> Void) {
         guard let currentUser = Auth.auth().currentUser?.uid else { return }
    
-        USERS.child(currentUser).child("friends").child(uid).observeSingleEvent(of: .value) { snapshot in
+        USERS.child(currentUser).child(CHATS).child(uid).observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() { completion(true) }
             else { completion(false) }
         }
@@ -127,47 +96,6 @@ struct UserManager {
         //            if data.keys.contains(uid) { completion(true) }
         //            else { completion(false) }
         //        }
-    }
-    static func observeChatChanges(completion: @escaping(User) -> Void) {
-        guard let currentUser = Auth.auth().currentUser?.uid else { return }
-        
-        USERS.child(currentUser).child("friends").observe(.childChanged) { snapshot in
-            guard let data = snapshot.value as? [String: Any] else { return }
-    
-            let user = User(uid: snapshot.key, data: data)
-            completion(user)
-        }
-    }
-    static func observeTimestampChanges(forUid uid: String, completion: @escaping(TimeInterval) -> Void) {
-        guard let currentUser = Auth.auth().currentUser?.uid else { return }
-        
-        USERS.child(uid).child("friends").child(currentUser).child("timestampOfRevealed").observe(.value) { snapshot in
-            guard let timestampOfRevealed = snapshot.value as? TimeInterval else { return }
-            completion(timestampOfRevealed)
-        }
-    }
-    static func stateForTheConversation(friendUid: String, isOpen: Bool) {
-        guard let currentUser = Auth.auth().currentUser?.uid else { return }
-    
-        USERS.child(currentUser).child("friends").child(friendUid).updateChildValues(["isConversationOpen": isOpen])
-    }
-    fileprivate static func fetchValues(
-        forUid uid: String,
-        data: [String: Any],
-        completion: @escaping([String: Any]) -> Void) {
-            
-        guard let username = data["username"] as? String else { return }
-        guard let profileImage = data["profileImage"] as? String else { return }
-        
-        let values: [String: Any] = [
-            "uid": uid,
-            "username": username,
-            "profileImage": profileImage,
-            "timestamp": Int(NSDate().timeIntervalSince1970),
-            "isConversationOpen": false,
-            "timestampOfRevealed": TimeInterval(0)
-        ]
-        completion(values)
     }
 }
 

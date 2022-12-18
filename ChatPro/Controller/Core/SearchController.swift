@@ -85,6 +85,7 @@ extension SearchController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let profileController = ProfileController()
         
+
         if isFiltering {
             profileController.user = filteredUsers[indexPath.row]
         } else {

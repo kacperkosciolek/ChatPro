@@ -47,7 +47,7 @@ extension NotificationController {
 }
 extension NotificationController: RequestDelegate {
     func addFriend(_ friend: User, _ numberOfRow: Int) {
-        UserManager.addFriend(uid: friend.uid)
+        ChatsManager.shared.createFriendChat(with: friend)
         UserManager.removeRequest(uid: friend.uid)
         self.users.remove(at: numberOfRow)
         self.tableView.reloadData()
